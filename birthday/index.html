@@ -101,6 +101,8 @@ input::placeholder{color:#5a6a9a;letter-spacing:.05em;font-size:14px}
 .cmd{display:flex;gap:14px;align-items:center}
 .avatar{flex:0 0 58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:26px;font-weight:800;color:#1a0b00;background:linear-gradient(135deg,var(--cyan),var(--orange2));box-shadow:0 0 24px rgba(94,231,255,.4)}
 footer{text-align:center;color:#5f70a3;font-size:12px;margin-top:30px}
+button.mini{margin-top:14px;padding:7px 14px;font-size:11px;font-weight:600;border-radius:10px;color:var(--dim);background:transparent;border:1px solid var(--line);box-shadow:none;letter-spacing:.08em;text-transform:uppercase}
+button.mini:hover{color:var(--cyan);box-shadow:none}
 
 /* launch overlay */
 #launch{position:fixed;inset:0;z-index:50;pointer-events:none;display:none}
@@ -266,7 +268,7 @@ function render(animateIdx){
       }
     }
   }
-  html+=`<footer class="mono">Made with ♥ by Audrey · Mission Control</footer>`;
+  html+=`<footer class="mono">Made with ♥ by Audrey · Mission Control${state.started?`<br><button class="mini" id="restart" type="button">↺ Restart mission</button>`:""}</footer>`;
   app.innerHTML=html;
   bind(); tick(); updateHud();
 }
@@ -314,6 +316,8 @@ function mapHtml(cd,embed){
 }
 
 function bind(){
+  const rs=$("#restart");
+  if(rs) rs.onclick=()=>{ if(confirm("Restart the mission from the very beginning?")){ state={started:false,done:[]}; save(); render(); scrollTo({top:0,behavior:"smooth"}); } };
   const b=$("#begin");
   if(b) b.onclick=()=>{state.started=true;save();render();setTimeout(()=>$("#cur")?.scrollIntoView({behavior:"smooth",block:"center"}),150)};
   const f=$("#f");
