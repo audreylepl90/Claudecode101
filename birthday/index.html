@@ -44,6 +44,7 @@ main{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:78px 16px
 .ghost{display:inline-block;margin-top:12px;font-size:14px;font-weight:600;color:var(--cyan);text-decoration:none;border:1px solid var(--line);background:rgba(94,231,255,.07);border-radius:12px;padding:10px 16px;transition:transform .12s,background .2s}
 .ghost:hover{background:rgba(94,231,255,.16)}.ghost:active{transform:scale(.95)}
 button.ghost{box-shadow:none;color:var(--cyan);background:rgba(94,231,255,.07)}
+.place{margin-top:12px;display:flex;flex-direction:column;gap:2px;font-size:14px;color:var(--dim)}.place b{color:var(--text);font-size:16px}
 .map{margin-top:12px;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
 .map iframe{display:block;width:100%;height:210px;border:0}
 .apollo{margin:4px 0 10px;text-align:center}
@@ -154,6 +155,8 @@ footer{text-align:center;color:#5f70a3;font-size:12px;margin-top:30px}
 "use strict";
 /* ============ SETTINGS (edit here) ============ */
 const HOTEL_POSTAL = "";          // <- put the hotel's 6-digit postal code here once booked, e.g. "199018"
+const HOTEL_NAME   = "";          // <- hotel name, e.g. "Hotel Boss" (shown on the map card)
+const HOTEL_ADDRESS= "";          // <- hotel street address, e.g. "38 Jalan Sultan"
 const MISSION_DATE = "2026-11-08T09:00:00+08:00";
 const MASTER_CODE  = "AUDREY";    // Audrey's override: unlocks the current chapter if a postal code is ever wrong
 /* =============================================== */
@@ -165,37 +168,39 @@ const norm=s=>String(s).toUpperCase().replace(/^SINGAPORE|^S(?=\d)/,"").replace(
 const HOTEL=H(norm(HOTEL_POSTAL||"HOTEL"));
 
 /* Each chapter: codes = hashed postal codes. Several codes can unlock one chapter (forks / alternates). */
-const MQ=p=>p?`Singapore ${p}`:"";
+const P=(place,addr)=>({place,addr,map:`${place}, ${addr}`});
+const HP=(HOTEL_NAME||HOTEL_ADDRESS||HOTEL_POSTAL)?{place:HOTEL_NAME||"Your hotel",addr:[HOTEL_ADDRESS,HOTEL_POSTAL&&"Singapore "+HOTEL_POSTAL].filter(Boolean).join(", "),
+  map:[HOTEL_NAME,HOTEL_ADDRESS,HOTEL_POSTAL&&"Singapore "+HOTEL_POSTAL].filter(Boolean).join(", ")}:{};
 const CHAPTERS=[
  {t:"09:00",title:"Fuel Up",
   riddle:"Every great mission starts with fuel. Today's is brewed by roasters who flipped their cafe upside down and moved house. The name is small enough to fit in your pocket, but the coffee is not. It's close to where you're sleeping.",
-  codes:[{h:[5041104632260185,7194005047419964],map:MQ("257840"),brief:"Fuel tanks filling. Order a coffee, or two. Engines don't start themselves, and neither does Steve before caffeine.",tag:"Coffee loaded"}]},
+  codes:[{h:[5041104632260185,7194005047419964],...P("Pocket by Flip Coffee Roasters","30 Stevens Road, #01-08, Singapore 257840"),brief:"Fuel tanks filling. Order a coffee, or two. Engines don't start themselves, and neither does Steve before caffeine.",tag:"Coffee loaded"}]},
  {t:"10:00",title:"Fork in the Trajectory",
   riddle:null,
   options:[
    "<b>Plan A (clear skies):</b> Mud, mangroves and reptiles that have been smiling at visitors since the dinosaurs. A wetland reserve in the far north-west of the island. (Locals say crocodile, Mission Control says alligator. Don't correct them to their face.)",
    "<b>Plan B (haze override):</b> A wooden wave bridge floating 36 metres above a road, on the green Southern Ridges. More trees, less haze, still very photogenic."],
   codes:[
-   {h:[5803341409188061],map:MQ("718925"),brief:"Plan A engaged: Sungei Buloh Wetland Reserve. Bring water, a hat and your best 'I am not afraid of reptiles' face. Smile, the alligators will.",tag:"Plan A · Sungei Buloh"},
-   {h:[6963489889869195,5502617799319853],map:MQ("159557"),brief:"Plan B engaged: Henderson Waves. Fresher air, wavy bridge, and zero alligators. Disappointing, but the lungs say thank you.",tag:"Plan B · Henderson Waves"}]},
+   {h:[5803341409188061],...P("Sungei Buloh Wetland Reserve","301 Neo Tiew Crescent, Singapore 718925"),brief:"Plan A engaged. Bring water, a hat and your best 'I am not afraid of reptiles' face. Smile, the alligators will. And when it's time to go, you know the drill: <b>See you later, alligator!</b> The correct reply is 'In a while, crocodile.' (Technically accurate here.)",tag:"Plan A · Wetland"},
+   {h:[6963489889869195,5502617799319853],...P("Henderson Waves","Henderson Road, Singapore 159557"),brief:"Plan B engaged. Fresher air, a wavy bridge, and zero alligators. Disappointing, but the lungs say thank you. Nobody to say 'See you later, alligator' to, so wave at a tree instead.",tag:"Plan B · Henderson Waves"}]},
  {t:"13:00",title:"Refuelling Stop",
   riddle:"A nut that people once burned like a candle, now cooked into traditional dishes the way Nonya grandmas make them. It sits on a leafy hill that used to house soldiers, and the food has the stars to prove it. Dress like you meant to look this good.",
-  codes:[{h:[4253631133550936],map:MQ("249676"),brief:"Touchdown confirmed. Order generously. Mission rule 1: nobody goes home hungry. Mission rule 2: share (a little).",tag:"Lunch unlocked"}]},
+  codes:[{h:[4253631133550936],...P("Candlenut","17A Dempsey Road, Singapore 249676"),brief:"Touchdown confirmed. Expect rich, hearty dishes with bold, vibrant flavours and a rainbow of colours on the table. Eat with your eyes first. Every dish goes in the middle and gets shared, so everyone gets a taste of everything.",tag:"Lunch unlocked"}]},
  {t:"14:30",title:"Cabin Cooldown",
   riddle:"Back to the habitat module for a rest. Air conditioning set to Arctic, curtains closed, shoes off. Enter the postal code of your home base on this mission, the place where you sleep.",
-  codes:[{h:[HOTEL],map:MQ(HOTEL_POSTAL),brief:"Habitat reached. Air-conditioning: ON. Steve's systems: recharging. Please do not disturb the astronaut (unless there is snacking).",tag:"Rest · Hotel"}]},
+  codes:[{h:[HOTEL],...HP,brief:"Habitat reached. Air-conditioning: ON. Steve's systems: recharging. Please do not disturb the astronaut (unless there is snacking).",tag:"Rest · Hotel"}]},
  {t:"16:00",title:"Splashdown",ph:"Secret word",
-  riddle:"Zero gravity is unavailable today, so Mission Control offers the next best thing: water. This chapter needs a secret word, not a postal code. Four letters, it's what you do to move through a pool without sinking.",
-  codes:[{h:[2423298491312417],brief:"Splashdown confirmed. Swim, float, repeat. Racing is allowed here, since nothing has wheels. Bring a towel.",tag:"Swim · Hotel pool"}]},
+  riddle:"Zero gravity is unavailable today, so Mission Control offers the next best thing: water. This chapter needs a secret word, not a postal code. Four letters, it's the thing you jump into at the hotel to cool off.",
+  codes:[{h:[65857791971311],...HP,brief:"Splashdown confirmed. Swim, float, repeat. Racing is allowed here, since nothing has wheels. Bring a towel.",tag:"Pool · Hotel"}]},
  {t:"19:30",title:"Ignition",
   riddle:"Smoke, sizzle, sauces and sides. Tonight you're the grill master: dinner you cook yourselves, over real fire. Every fire alarm in the neighbourhood is nervous.",
-  codes:[{h:[322463758418763],map:MQ("069623"),brief:"Ignition sequence started. Grills are hot. Rule: whoever flips the meat wears the apron. (Mission Control suggests Steve.)",tag:"Dinner unlocked"}]},
+  codes:[{h:[322463758418763],...P("Um Yong Baek","27 Boon Tat Street, Singapore 069623"),brief:"Ignition sequence started. Grills are hot. Rule: whoever flips the meat wears the apron. (Mission Control suggests Steve.)",tag:"Dinner unlocked"}]},
  {t:"21:00",title:"Sweet Orbit",
   riddle:"Dessert planet: something cold, creamy and sweet, because dinner is never the final stage. Small portion, huge happiness. Mission Control insists.",
-  codes:[{h:[8324979989525906],map:MQ("069916"),brief:"Sweet orbit reached. Gravity is optional, dessert is not. Order the one you can't pronounce.",tag:"Dessert unlocked"}]},
+  codes:[{h:[8324979989525906],...P("Tofu G","97 Amoy Street, Singapore 069916"),brief:"Sweet orbit reached. Gravity is optional, dessert is not. Order the one you can't pronounce.",tag:"Dessert unlocked"}]},
  {t:"22:00",title:"Moon Landing",
-  riddle:"The final stage. A new cocktail bar tucked inside a grand old museum, with a rooftop view across the city and the bay. Moon landing in 3, 2, 1...",
-  codes:[{h:[5102873824469740],map:MQ("178957"),brief:"The Eagle has landed. Rooftop cocktails, city lights, and the whole island at your feet.",tag:"Rooftop reached",final:true}]}
+  riddle:"The final stage. A grand old museum with a rooftop that gives you the best skyline view of the city and the bay, lit up like a launch pad at night. Moon landing in 3, 2, 1...",
+  codes:[{h:[5102873824469740],...P("National Gallery Singapore","1 St Andrew's Road, Singapore 178957"),brief:"The Eagle has landed. The skyline is the star of tonight's show, with the city lights and the bay glittering below. Have a drink or two, but let the view do the talking.",tag:"Rooftop reached",final:true}]}
 ];
 
 const WRONG=[
@@ -235,7 +240,6 @@ function render(animateIdx){
     <p class="sub">Happy birthday, <b>Dr. Novakov</b>! Mission Control has one day, eight chapters and one co-pilot. Solve each clue, enter the postal code of the destination, and the next chapter unlocks.</p>
     <div id="countdown" class="mono"></div>
     ${state.started?"":`<button class="big" id="begin">Begin mission 🚀</button>`}
-    <div><button class="ghost" id="remind" type="button">🔔 Add mission reminders to calendar</button><div style="color:var(--dim);font-size:12px;margin-top:6px">Alerts 20 minutes before each chapter</div></div>
   </section>`;
   if(state.started){
     for(let i=0;i<n;i++){
@@ -246,7 +250,7 @@ function render(animateIdx){
           <div class="meta mono"><span>Chapter ${i+1}</span><span>T+${c.t}</span></div>
           <h2>${c.title}</h2>
           <div class="brief"><div class="mono">✓ ${cd.tag}</div>${cd.brief}</div>
-          ${mapHtml(cd,i===prog-1)}
+          ${placeHtml(cd)}${mapHtml(cd,i===prog-1)}
         </article>`;
         if(cd.final) html+=finale();
       }else if(i===prog){
@@ -288,14 +292,18 @@ function finale(){
   return `<article class="card ok">
     <div class="meta mono"><span>Final transmission</span><span>★</span></div>
     ${apollo()}
-    <div class="msg">Happy birthday, <em>Dr. Novakov</em>! 🎂<br><br>You've just completed another full orbit around the Sun (about 940 million km) and you still haven't hit terminal velocity.<br><br>Thank you for a wonderful adventure so far, here is to many more.<br><br>Newton's first law says an object in motion stays in motion, so we're keeping you moving. Hope you enjoyed the alligators and a day full of food. Results: time is relative, calories are conserved, and dessert has infinite gravitational pull. 🌙</div>
+    <div class="msg">Happy birthday, <em>Dr. Novakov</em>! 🎂<br><br>You've just completed another full orbit around the Sun (about 940 million km) and you still haven't hit terminal velocity.<br><br>Thank you for a wonderful adventure so far, here is to many more.<br><br>Newton's first law says an object in motion stays in motion, so Audrey is keeping you moving. Hope you enjoyed the alligators and a day fueled with good food. Results: time is relative, calories are conserved, and dessert has infinite gravitational pull. 🌙</div>
   </article>
   <article class="card">
     <div class="cmd"><div class="avatar">A</div>
       <div><div class="mono" style="color:var(--cyan);font-size:11px">Mission Commander</div>
       <b style="font-size:18px">Audrey</b>
-      <div style="color:var(--dim);font-size:14px">Real estate ops manager by day, sports, travel and culture by night. Today she turned all that project-management skill into one very warm, very fun mission, with you as the co-pilot.</div></div></div>
+      <div style="color:var(--dim);font-size:14px">Real estate ops manager by day, sports, travel and culture lover by night. Today she pointed all those project-management skills at one very fun mission, with you as her co-pilot. Occupational hazard, for sure: even the fun comes with a timeline.</div></div></div>
   </article>`;
+}
+
+function placeHtml(cd){
+  return cd.place?`<div class="place"><b>📍 ${cd.place}</b><span>${cd.addr}</span></div>`:"";
 }
 
 function mapHtml(cd,embed){
@@ -305,22 +313,7 @@ function mapHtml(cd,embed){
     +`<a class="ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${q}">📍 Open in Google Maps</a>`;
 }
 
-function reminders(){
-  const pad=n=>String(n).padStart(2,"0"), url=location.href.split("?")[0], stamp=new Date().toISOString().replace(/[-:]|\.\d+/g,"");
-  let out=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Operation Novakov//EN"];
-  CHAPTERS.forEach((c,i)=>{
-    const [h,m]=c.t.split(":").map(Number), st=new Date(Date.UTC(2026,10,8,h-8,m)), en=new Date(st.getTime()+36e5);
-    const f=d=>d.toISOString().replace(/[-:]|\.\d+/g,"");
-    out.push("BEGIN:VEVENT","UID:novakov-"+i+"@mission","DTSTAMP:"+stamp,"DTSTART:"+f(st),"DTEND:"+f(en),
-      "SUMMARY:Operation Novakov: Chapter "+(i+1)+" - "+c.title,"DESCRIPTION:Mission Control: open the next chapter at "+url,
-      "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Chapter "+(i+1)+" in 20 minutes. Open the next location!","TRIGGER:-PT20M","END:VALARM","END:VEVENT");
-  });
-  out.push("END:VCALENDAR");
-  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([out.join("\r\n")],{type:"text/calendar"})); a.download="operation-novakov.ics"; document.body.appendChild(a); a.click(); a.remove();
-}
-
 function bind(){
-  const rm=$("#remind"); if(rm) rm.onclick=reminders;
   const b=$("#begin");
   if(b) b.onclick=()=>{state.started=true;save();render();setTimeout(()=>$("#cur")?.scrollIntoView({behavior:"smooth",block:"center"}),150)};
   const f=$("#f");
