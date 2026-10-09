@@ -191,7 +191,7 @@ const CHAPTERS=[
  {t:"14:30",title:"Cabin Cooldown",
   riddle:"Back to the habitat module for a rest. Air conditioning set to Arctic, curtains closed, shoes off. Enter the postal code of your home base on this mission, the place where you sleep.",
   codes:[{h:[HOTEL],...HP,brief:"Habitat reached. Air-conditioning: ON. Steve's systems: recharging. Please do not disturb the astronaut (unless there is snacking).",tag:"Rest · Hotel"}]},
- {t:"16:00",title:"Splashdown",ph:"Secret word",
+ {t:"16:00",title:"Splashdown",
   riddle:"Zero gravity is unavailable today, so Mission Control offers the next best thing: water. This chapter needs a secret word, not a postal code. Four letters, it's the thing you jump into at the hotel to cool off.",
   codes:[{h:[65857791971311],...HP,brief:"Splashdown confirmed. Swim, float, repeat. Racing is allowed here, since nothing has wheels. Bring a towel.",tag:"Pool · Hotel"}]},
  {t:"19:30",title:"Ignition",
@@ -260,7 +260,7 @@ function render(animateIdx){
           <div class="meta mono"><span>Chapter ${i+1} · incoming</span><span>T+${c.t}</span></div>
           <h2>${c.title}</h2>
           ${c.riddle?`<p class="riddle">${c.riddle}</p>`:c.options.map(o=>`<div class="opt">${o}</div>`).join("")+`<p class="riddle">Audrey will tell you which one. Type the postal code of the chosen destination.</p>`}
-          <form id="f" autocomplete="off"><input id="code" inputmode="text" autocapitalize="characters" placeholder="${c.ph||'Postal code'}" aria-label="${c.ph||'Postal code'}" maxlength="12"><button type="submit">Unlock</button></form>
+          <form id="f" autocomplete="off"><input id="code" inputmode="text" autocapitalize="characters" placeholder="${c.ph||'Code'}" aria-label="${c.ph||'Code'}" maxlength="12"><button type="submit">Unlock</button></form>
           <div class="err" id="err" role="status"></div>
         </article>`;
       }else{
