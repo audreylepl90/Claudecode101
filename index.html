@@ -60,19 +60,27 @@
   }
   .stars-1{
     background-image: radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1.5px);
-    background-size: 140px 140px;
+    background-size: 90px 90px;
     opacity:.55;
     animation: twinkle1 4s ease-in-out infinite alternate;
   }
   .stars-2{
     background-image: radial-gradient(rgba(94,231,255,0.85) 1px, transparent 1.5px);
-    background-size: 90px 90px;
-    background-position: 30px 40px;
+    background-size: 64px 64px;
+    background-position: 22px 36px;
     opacity:.35;
     animation: twinkle2 6s ease-in-out infinite alternate;
   }
+  .stars-3{
+    background-image: radial-gradient(rgba(255,255,255,0.7) 1px, transparent 1.4px);
+    background-size: 37px 37px;
+    background-position: 11px 19px;
+    opacity:.22;
+    animation: twinkle3 5s ease-in-out infinite alternate;
+  }
   @keyframes twinkle1{ from{ opacity:.3; } to{ opacity:.65; } }
   @keyframes twinkle2{ from{ opacity:.18; } to{ opacity:.45; } }
+  @keyframes twinkle3{ from{ opacity:.1; } to{ opacity:.3; } }
 
   /* moon */
   .moon{
@@ -122,6 +130,36 @@
   }
   @keyframes planetFloat{ 50%{ transform: translateY(-10px); } }
 
+  /* extra small planets, scattered around the edges */
+  .planet-2{
+    position:fixed;
+    z-index:0;
+    pointer-events:none;
+    top:-18px;
+    right:64px;
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #ff9a76, #b23a2e 70%);
+    box-shadow: 0 0 24px 4px rgba(255,122,61,.25);
+    animation: planet2Float 8s ease-in-out infinite;
+  }
+  .planet-3{
+    position:fixed;
+    z-index:0;
+    pointer-events:none;
+    bottom:-26px;
+    left:72px;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #cdeeff, #3a6ea5 70%);
+    box-shadow: 0 0 22px 4px rgba(94,231,255,.2);
+    animation: planet3Float 10s ease-in-out infinite reverse;
+  }
+  @keyframes planet2Float{ 50%{ transform: translateY(12px); } }
+  @keyframes planet3Float{ 50%{ transform: translateY(-9px); } }
+
   /* spaceship */
   .spaceship{
     position:fixed;
@@ -150,7 +188,7 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .stars-1, .stars-2, .moon, .planet, .spaceship, .spaceship .flame{ animation: none; }
+    .stars-1, .stars-2, .stars-3, .moon, .planet, .planet-2, .planet-3, .spaceship, .spaceship .flame{ animation: none; }
   }
 
   .card{
@@ -323,7 +361,7 @@
 
   .link-btn.instagram{ background: linear-gradient(135deg, #f58529, #dd2a7b 45%, #8134af 75%, #515bd4); color:#fff; }
   .link-btn.linkedin{ background: linear-gradient(135deg, #0A66C2, #0958a8); color:#fff; }
-  .link-btn.behance{ background: linear-gradient(135deg, #1769ff, #0047ab); color:#fff; }
+  .link-btn.behance{ background: linear-gradient(135deg, #a657ff, #5b1f99); color:#fff; }
 
   .be-badge{
     font-weight:800;
@@ -354,8 +392,11 @@
 
   <div class="stars stars-1"></div>
   <div class="stars stars-2"></div>
+  <div class="stars stars-3"></div>
   <div class="moon"><i style="left:22%;top:28%;width:22px;height:22px"></i><i style="left:58%;top:18%;width:14px;height:14px"></i><i style="left:50%;top:55%;width:30px;height:30px"></i><i style="left:20%;top:64%;width:12px;height:12px"></i></div>
   <div class="planet"></div>
+  <div class="planet-2"></div>
+  <div class="planet-3"></div>
   <svg class="spaceship" viewBox="0 0 64 64" width="54" height="54" fill="none">
     <path d="M32 2C40 14 44 26 44 36H20C20 26 24 14 32 2Z" fill="#f4f1e6"/>
     <rect x="20" y="36" width="24" height="14" fill="#f4f1e6"/>
