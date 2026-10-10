@@ -10,19 +10,23 @@
 <meta property="og:description" content="Communications and Marketing Creative — BA by day and Analyst by night.">
 <meta property="og:type" content="profile">
 
-<meta name="theme-color" content="#fff6ef">
-<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#050816">
+<meta name="color-scheme" content="dark">
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 
 <style>
   :root{
-    --cream:#fff6ef;
-    --blush:#ffd9c9;
-    --peach:#ffb199;
-    --coral:#ff8a73;
-    --plum:#5b3a4a;
-    --ink:#3f2a34;
+    --bg:#050816;
+    --bg2:#0b1230;
+    --panel:rgba(16,24,58,.72);
+    --line:rgba(140,170,255,.22);
+    --moon:#f4f1e6;
+    --orange:#ff7a3d;
+    --orange2:#ffb347;
+    --cyan:#5ee7ff;
+    --text:#e9eeff;
+    --dim:#8fa0d0;
     --white:#ffffff;
   }
 
@@ -36,8 +40,8 @@
 
   body{
     font-family: ui-rounded, "SF Pro Rounded", "Segoe UI Rounded", "Nunito", "Helvetica Neue", Arial, sans-serif;
-    color: var(--ink);
-    background: linear-gradient(160deg, var(--cream) 0%, var(--blush) 55%, var(--peach) 100%);
+    color: var(--text);
+    background: radial-gradient(120% 80% at 50% 0%, var(--bg2) 0%, var(--bg) 60%);
     min-height: 100dvh;
     display:flex;
     align-items:center;
@@ -47,50 +51,106 @@
     overflow-x:hidden;
   }
 
-  /* drifting background blobs for a bit of life */
-  .blob{
+  /* starfield */
+  .stars{
     position:fixed;
-    border-radius:50%;
-    filter: blur(40px);
-    opacity:0.45;
+    inset:0;
     z-index:0;
     pointer-events:none;
   }
-  .blob-1{
-    width:280px; height:280px;
-    background: var(--coral);
-    top:-80px; left:-80px;
-    animation: drift1 14s ease-in-out infinite;
+  .stars-1{
+    background-image: radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1.5px);
+    background-size: 140px 140px;
+    opacity:.55;
+    animation: twinkle1 4s ease-in-out infinite alternate;
   }
-  .blob-2{
-    width:220px; height:220px;
-    background: var(--peach);
-    bottom:-60px; right:-60px;
-    animation: drift2 16s ease-in-out infinite;
+  .stars-2{
+    background-image: radial-gradient(rgba(94,231,255,0.85) 1px, transparent 1.5px);
+    background-size: 90px 90px;
+    background-position: 30px 40px;
+    opacity:.35;
+    animation: twinkle2 6s ease-in-out infinite alternate;
   }
-  .blob-3{
-    width:160px; height:160px;
-    background: #ffe1a8;
-    top:40%; right:-40px;
-    opacity:0.35;
-    animation: drift3 12s ease-in-out infinite;
-  }
+  @keyframes twinkle1{ from{ opacity:.3; } to{ opacity:.65; } }
+  @keyframes twinkle2{ from{ opacity:.18; } to{ opacity:.45; } }
 
-  @keyframes drift1{
-    0%,100%{ transform: translate(0,0) scale(1); }
-    50%{ transform: translate(30px, 40px) scale(1.08); }
+  /* moon */
+  .moon{
+    position:fixed;
+    z-index:0;
+    pointer-events:none;
+    left:-44px;
+    top:64px;
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #fff 0%, var(--moon) 35%, #c9c4b0 100%);
+    box-shadow:0 0 60px 10px rgba(244,241,230,.25), 0 0 140px 36px rgba(94,231,255,.12);
+    animation: moonFloat 9s ease-in-out infinite;
   }
-  @keyframes drift2{
-    0%,100%{ transform: translate(0,0) scale(1); }
-    50%{ transform: translate(-25px,-30px) scale(1.1); }
+  .moon i{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(120,115,95,.28);
+    box-shadow: inset 2px 2px 3px rgba(0,0,0,.18);
   }
-  @keyframes drift3{
-    0%,100%{ transform: translate(0,0); }
-    50%{ transform: translate(-20px, 25px); }
+  @keyframes moonFloat{ 50%{ transform: translateY(-14px); } }
+
+  /* planet */
+  .planet{
+    position:fixed;
+    z-index:0;
+    pointer-events:none;
+    right:-24px;
+    bottom:140px;
+    width:92px;
+    height:92px;
+    border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, #ffd29a, #e0803a 70%);
+    animation: planetFloat 11s ease-in-out infinite reverse;
+  }
+  .planet::after{
+    content:"";
+    position:absolute;
+    left:-36px;
+    top:33px;
+    width:164px;
+    height:22px;
+    border:4px solid rgba(255,214,160,.8);
+    border-radius:50%;
+    transform: rotate(-16deg);
+  }
+  @keyframes planetFloat{ 50%{ transform: translateY(-10px); } }
+
+  /* spaceship */
+  .spaceship{
+    position:fixed;
+    z-index:0;
+    pointer-events:none;
+    left:0;
+    top:58%;
+    width:54px;
+    filter: drop-shadow(0 0 8px rgba(255,122,61,.5));
+    animation: fly 18s linear infinite;
+  }
+  .spaceship .flame{
+    animation: flameFlicker .5s ease-in-out infinite alternate;
+    transform-origin: center;
+  }
+  @keyframes flameFlicker{
+    from{ opacity:.6; transform: scaleY(.85); }
+    to{ opacity:1; transform: scaleY(1.1); }
+  }
+  @keyframes fly{
+    0%{ transform: translate(-10vw, 12vh) rotate(-32deg); opacity:0; }
+    8%{ opacity:1; }
+    50%{ transform: translate(70vw, -38vh) rotate(-18deg); }
+    92%{ opacity:1; }
+    100%{ transform: translate(130vw, -72vh) rotate(-18deg); opacity:0; }
   }
 
   @media (prefers-reduced-motion: reduce){
-    .blob{ animation: none; }
+    .stars-1, .stars-2, .moon, .planet, .spaceship, .spaceship .flame{ animation: none; }
   }
 
   .card{
@@ -108,14 +168,14 @@
     width:96px;
     height:96px;
     border-radius:50%;
-    background: linear-gradient(135deg, var(--coral), #ffb199 60%, #ffd9c9);
+    background: linear-gradient(135deg, var(--cyan), var(--orange2) 60%, var(--orange));
     display:flex;
     align-items:center;
     justify-content:center;
-    color:var(--white);
+    color:#1a0b00;
     font-size:34px;
     font-weight:700;
-    box-shadow: 0 12px 30px -8px rgba(255,138,115,0.55);
+    box-shadow: 0 0 34px 2px rgba(94,231,255,.35);
     opacity:0;
     transform: translateY(10px) scale(0.9);
     animation: pop-in 0.6s cubic-bezier(.34,1.56,.64,1) 0.05s forwards;
@@ -125,7 +185,10 @@
     margin: 18px 0 2px;
     font-size: 26px;
     font-weight: 800;
-    color: var(--plum);
+    background: linear-gradient(120deg, #fff 20%, var(--cyan) 55%, var(--orange2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     opacity:0;
     transform: translateY(8px);
     animation: fade-up 0.55s ease-out 0.2s forwards;
@@ -135,7 +198,7 @@
     margin:0;
     font-size:15px;
     font-weight:600;
-    color: var(--coral);
+    color: var(--orange2);
     opacity:0;
     transform: translateY(8px);
     animation: fade-up 0.55s ease-out 0.32s forwards;
@@ -145,8 +208,7 @@
     margin: 12px 0 26px;
     font-size:14.5px;
     line-height:1.5;
-    color: var(--ink);
-    opacity:0.85;
+    color: var(--dim);
     max-width: 320px;
     opacity:0;
     transform: translateY(8px);
@@ -178,24 +240,23 @@
     min-height:56px;
     padding: 0 20px;
     border-radius: 999px;
-    background: var(--white);
-    color: var(--ink);
     text-decoration:none;
     font-weight:700;
     font-size:15.5px;
-    box-shadow: 0 6px 18px -8px rgba(91,58,74,0.25);
+    border:1px solid var(--line);
+    box-shadow: 0 10px 26px -12px rgba(0,0,0,.6);
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
     -webkit-tap-highlight-color: transparent;
   }
 
   .link-btn:hover{
     transform: translateY(-2px);
-    box-shadow: 0 12px 24px -10px rgba(91,58,74,0.35);
+    box-shadow: 0 14px 30px -10px rgba(94,231,255,.35);
   }
 
   .link-btn:active{
     transform: scale(0.96);
-    box-shadow: 0 4px 10px -6px rgba(91,58,74,0.3);
+    box-shadow: 0 4px 10px -6px rgba(0,0,0,.5);
   }
 
   .link-btn .icon{
@@ -207,33 +268,49 @@
     justify-content:center;
   }
 
-  .link-btn.whatsapp{ background: linear-gradient(135deg, #25D366, #1fb956); color:#fff; }
-  .link-btn.linkedin{ background: linear-gradient(135deg, #0A66C2, #0958a8); color:#fff; }
   .link-btn.instagram{ background: linear-gradient(135deg, #f58529, #dd2a7b 45%, #8134af 75%, #515bd4); color:#fff; }
+  .link-btn.linkedin{ background: linear-gradient(135deg, #0A66C2, #0958a8); color:#fff; }
+  .link-btn.behance{ background: linear-gradient(135deg, #1769ff, #0047ab); color:#fff; }
+
+  .be-badge{
+    font-weight:800;
+    font-size:14px;
+    letter-spacing:-0.5px;
+  }
 
   footer{
     margin-top: 30px;
     font-size:12.5px;
-    color: var(--plum);
-    opacity:0.55;
+    color: var(--dim);
+    opacity:0.7;
   }
 
   @media (min-width: 640px){
     .card{
-      background: rgba(255,255,255,0.35);
+      background: var(--panel);
+      border: 1px solid var(--line);
       backdrop-filter: blur(6px);
       border-radius: 32px;
       padding: 48px 40px 36px;
-      box-shadow: 0 30px 60px -20px rgba(91,58,74,0.25);
+      box-shadow: 0 30px 60px -20px rgba(0,0,0,.6);
     }
   }
 </style>
 </head>
 <body>
 
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
+  <div class="stars stars-1"></div>
+  <div class="stars stars-2"></div>
+  <div class="moon"><i style="left:22%;top:28%;width:22px;height:22px"></i><i style="left:58%;top:18%;width:14px;height:14px"></i><i style="left:50%;top:55%;width:30px;height:30px"></i><i style="left:20%;top:64%;width:12px;height:12px"></i></div>
+  <div class="planet"></div>
+  <svg class="spaceship" viewBox="0 0 64 64" width="54" height="54" fill="none">
+    <path d="M32 2C40 14 44 26 44 36H20C20 26 24 14 32 2Z" fill="#f4f1e6"/>
+    <rect x="20" y="36" width="24" height="14" fill="#f4f1e6"/>
+    <circle cx="32" cy="24" r="5" fill="#5ee7ff"/>
+    <path d="M20 40L8 52L20 48Z" fill="#1b1f33"/>
+    <path d="M44 40L56 52L44 48Z" fill="#1b1f33"/>
+    <ellipse class="flame" cx="32" cy="54" rx="6" ry="10" fill="#ff7a3d"/>
+  </svg>
 
   <main class="card">
     <div class="avatar">A</div>
@@ -242,11 +319,11 @@
     <p class="bio">BA by day and Analyst by night ✨</p>
 
     <nav class="links">
-      <a class="link-btn whatsapp" href="https://wa.me/6593897948" target="_blank" rel="noopener">
+      <a class="link-btn instagram" href="https://instagram.com/audreylepl" target="_blank" rel="noopener">
         <span class="icon">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.45 1.33 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2Zm5.83 14.24c-.25.7-1.24 1.28-2.03 1.45-.55.12-1.26.21-3.67-.79-3.08-1.27-5.06-4.39-5.21-4.6-.15-.2-1.25-1.66-1.25-3.17s.78-2.24 1.06-2.55c.27-.3.6-.38.8-.38h.58c.19 0 .43-.07.68.51.25.6.85 2.08.93 2.23.08.15.13.33.02.53-.1.2-.15.33-.3.5-.15.18-.32.4-.46.53-.15.15-.31.31-.13.61.18.3.8 1.32 1.72 2.13 1.19 1.06 2.18 1.39 2.49 1.55.3.15.48.13.66-.08.18-.2.77-.9.98-1.2.2-.3.4-.25.68-.15.28.1 1.76.83 2.06.98.3.15.5.23.58.35.08.13.08.75-.17 1.45Z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.05.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.05.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.05-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.05-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 1.8c-3.14 0-3.5.01-4.74.07-.96.04-1.48.2-1.83.34-.46.18-.78.39-1.13.73-.34.35-.55.67-.73 1.13-.14.35-.3.87-.34 1.83-.06 1.24-.07 1.6-.07 4.74s.01 3.5.07 4.74c.04.96.2 1.48.34 1.83.18.46.39.78.73 1.13.35.34.67.55 1.13.73.35.14.87.3 1.83.34 1.24.06 1.6.07 4.74.07s3.5-.01 4.74-.07c.96-.04 1.48-.2 1.83-.34.46-.18.78-.39 1.13-.73.34-.35.55-.67.73-1.13.14-.35.3-.87.34-1.83.06-1.24.07-1.6.07-4.74s-.01-3.5-.07-4.74c-.04-.96-.2-1.48-.34-1.83a3.02 3.02 0 0 0-.73-1.13 3.02 3.02 0 0 0-1.13-.73c-.35-.14-.87-.3-1.83-.34-1.24-.06-1.6-.07-4.74-.07Zm0 3.6a5.44 5.44 0 1 1 0 10.88 5.44 5.44 0 0 1 0-10.88Zm0 1.8a3.64 3.64 0 1 0 0 7.28 3.64 3.64 0 0 0 0-7.28Zm5.66-1.99a1.27 1.27 0 1 1-2.54 0 1.27 1.27 0 0 1 2.54 0Z"/></svg>
         </span>
-        WhatsApp
+        Instagram
       </a>
 
       <a class="link-btn linkedin" href="https://linkedin.com/in/audrey-lpl" target="_blank" rel="noopener">
@@ -256,15 +333,13 @@
         LinkedIn
       </a>
 
-      <a class="link-btn instagram" href="https://instagram.com/audreylepl" target="_blank" rel="noopener">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.05.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.05.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.05-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.05-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 1.8c-3.14 0-3.5.01-4.74.07-.96.04-1.48.2-1.83.34-.46.18-.78.39-1.13.73-.34.35-.55.67-.73 1.13-.14.35-.3.87-.34 1.83-.06 1.24-.07 1.6-.07 4.74s.01 3.5.07 4.74c.04.96.2 1.48.34 1.83.18.46.39.78.73 1.13.35.34.67.55 1.13.73.35.14.87.3 1.83.34 1.24.06 1.6.07 4.74.07s3.5-.01 4.74-.07c.96-.04 1.48-.2 1.83-.34.46-.18.78-.39 1.13-.73.34-.35.55-.67.73-1.13.14-.35.3-.87.34-1.83.06-1.24.07-1.6.07-4.74s-.01-3.5-.07-4.74c-.04-.96-.2-1.48-.34-1.83a3.02 3.02 0 0 0-.73-1.13 3.02 3.02 0 0 0-1.13-.73c-.35-.14-.87-.3-1.83-.34-1.24-.06-1.6-.07-4.74-.07Zm0 3.6a5.44 5.44 0 1 1 0 10.88 5.44 5.44 0 0 1 0-10.88Zm0 1.8a3.64 3.64 0 1 0 0 7.28 3.64 3.64 0 0 0 0-7.28Zm5.66-1.99a1.27 1.27 0 1 1-2.54 0 1.27 1.27 0 0 1 2.54 0Z"/></svg>
-        </span>
-        Instagram
+      <a class="link-btn behance" href="https://www.behance.net/audreyleart" target="_blank" rel="noopener">
+        <span class="icon be-badge">Bē</span>
+        Behance
       </a>
     </nav>
 
-    <footer>made with care ✨</footer>
+    <footer>made with care, somewhere among the stars ✦</footer>
   </main>
 
 </body>
