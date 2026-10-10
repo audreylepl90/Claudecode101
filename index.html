@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Audrey zle</title>
-<meta name="description" content="Audrey zle — Communications and Marketing Creative. Get in touch.">
+<title>Audrey Le</title>
+<meta name="description" content="Audrey Le — Engagement and Communications Strategist. Get in touch.">
 
-<meta property="og:title" content="Audrey zle">
-<meta property="og:description" content="Communications and Marketing Creative — BA by day and Analyst by night.">
+<meta property="og:title" content="Audrey Le">
+<meta property="og:description" content="Engagement and Communications Strategist — Real Estate Strategist by day, Multi-disciplinary Creative by night.">
 <meta property="og:type" content="profile">
 
 <meta name="theme-color" content="#050816">
@@ -222,6 +222,59 @@
     to{ opacity:1; transform:none; }
   }
 
+  .info{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom: 18px;
+    opacity:0;
+    transform: translateY(10px);
+    animation: fade-up 0.55s ease-out 0.56s forwards;
+  }
+
+  .info-toggle{
+    width:100%;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background: var(--panel);
+    overflow:hidden;
+  }
+
+  .info-toggle summary{
+    list-style:none;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:14px 18px;
+    font-weight:700;
+    font-size:15px;
+    color: var(--text);
+    -webkit-tap-highlight-color:transparent;
+    transition: background .15s ease;
+  }
+  .info-toggle summary::-webkit-details-marker{ display:none; }
+  .info-toggle summary::after{
+    content:"+";
+    flex-shrink:0;
+    font-size:18px;
+    color: var(--cyan);
+  }
+  .info-toggle[open] summary::after{ content:"\2212"; }
+  .info-toggle summary:active{ background: rgba(94,231,255,.06); }
+
+  .info-panel{
+    padding: 0 18px 16px;
+    color: var(--dim);
+    font-size:14px;
+    line-height:1.6;
+    text-align:left;
+  }
+  .info-panel p{ margin:0 0 10px; }
+  .info-panel p:last-child{ margin-bottom:0; }
+
   .links{
     width:100%;
     display:flex;
@@ -229,7 +282,7 @@
     gap:12px;
     opacity:0;
     transform: translateY(10px);
-    animation: fade-up 0.55s ease-out 0.56s forwards;
+    animation: fade-up 0.55s ease-out 0.68s forwards;
   }
 
   .link-btn{
@@ -314,12 +367,29 @@
 
   <main class="card">
     <div class="avatar">A</div>
-    <h1>Audrey zle</h1>
-    <p class="title">Communications and Marketing Creative</p>
-    <p class="bio">BA by day and Analyst by night ✨</p>
+    <h1>Audrey Le</h1>
+    <p class="title">Engagement and Communications Strategist</p>
+    <p class="bio">Real Estate Strategist by day, Multi-disciplinary Creative by night.</p>
+
+    <section class="info">
+      <details class="info-toggle">
+        <summary>About me</summary>
+        <div class="info-panel">
+          <p>I switch between my corporate job in commercial real estate, and my passion for painting, illustration and other creative outlets. In my illustration works, I use traditional and digital media to produce delicate typography and delightfully intricate flora and fauna.</p>
+          <p>My experience includes illustration, typography, calligraphy, workshop, floral design, theatre production make-up, and wedding art direction.</p>
+        </div>
+      </details>
+
+      <details class="info-toggle">
+        <summary>Past clients</summary>
+        <div class="info-panel">
+          <p>Apple, Google, Samsung, Thermos, TBWA x SOS, DFS Singapore, LauraMercier, Laneige, Pilot Pen, Singapore Tourism Board (STB), Singapore F1 GP, Public Utility Board (PUB), Eazy Insurance, Shiseido Robinsons and more.</p>
+        </div>
+      </details>
+    </section>
 
     <nav class="links">
-      <a class="link-btn instagram" href="https://instagram.com/audreylepl" target="_blank" rel="noopener">
+      <a class="link-btn instagram" href="https://www.instagram.com/audrey.le.art" target="_blank" rel="noopener">
         <span class="icon">
           <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.05.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.05.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.05-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.05-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 1.8c-3.14 0-3.5.01-4.74.07-.96.04-1.48.2-1.83.34-.46.18-.78.39-1.13.73-.34.35-.55.67-.73 1.13-.14.35-.3.87-.34 1.83-.06 1.24-.07 1.6-.07 4.74s.01 3.5.07 4.74c.04.96.2 1.48.34 1.83.18.46.39.78.73 1.13.35.34.67.55 1.13.73.35.14.87.3 1.83.34 1.24.06 1.6.07 4.74.07s3.5-.01 4.74-.07c.96-.04 1.48-.2 1.83-.34.46-.18.78-.39 1.13-.73.34-.35.55-.67.73-1.13.14-.35.3-.87.34-1.83.06-1.24.07-1.6.07-4.74s-.01-3.5-.07-4.74c-.04-.96-.2-1.48-.34-1.83a3.02 3.02 0 0 0-.73-1.13 3.02 3.02 0 0 0-1.13-.73c-.35-.14-.87-.3-1.83-.34-1.24-.06-1.6-.07-4.74-.07Zm0 3.6a5.44 5.44 0 1 1 0 10.88 5.44 5.44 0 0 1 0-10.88Zm0 1.8a3.64 3.64 0 1 0 0 7.28 3.64 3.64 0 0 0 0-7.28Zm5.66-1.99a1.27 1.27 0 1 1-2.54 0 1.27 1.27 0 0 1 2.54 0Z"/></svg>
         </span>
